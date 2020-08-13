@@ -3,28 +3,41 @@
 
 $(document).ready(function(){
 
+    
 
     function open_link(link){
         console.log(link.href)
         chrome.tabs.create({active: true, url: link});
-        
     }
 
+
+
     function render_links(zoomKeys){
+
+        //Empty UL List
+        $("#ul_id").empty();
+
+        //Generate Buttons
         zoomKeys.forEach(element => {
-            var myButton = document.createElement("BUTTON")
-            
             chrome.storage.local.get(element, function(result) {
 
-                console.log(result[element])
-                myButton.id = result[element]; 
-                myButton.addEventListener('click', function(){
+                var li_elem = document.createElement('li'); //Create li_element
+                var cancel_button = document.createElement('span')
+
+                li_elem.innerHTML = element; //Set Title of LI
+                li_elem.classList.add("btns") //Set CSS Class
+
+                cancel_button.innerHTML = "X"
+                cancel_button.classList.add("delete_div")
+
+                li_elem.append(cancel_button)
+
+                document.getElementById("ul_id").appendChild(li_elem)
+                 
+                li_elem.addEventListener('click', function(){
                     open_link(result[element]);
                 });
-                myButton.innerHTML = result[element];
             });
-
-            $("#show-v").append(myButton)
 
         });
     }

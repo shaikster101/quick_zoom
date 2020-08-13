@@ -1,1 +1,1 @@
-console.log("Hello World")
+chrome.browserAction.setIcon({path:"icon.png"});
